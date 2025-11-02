@@ -1,7 +1,10 @@
 <?php
 include 'db.php';
+
 $search = "";
-if (isset($_POST['search'])) {
+
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $search = $_POST['search'];
 }
 
@@ -12,20 +15,21 @@ $result = $conn->query($sql);
 <!DOCTYPE html>
 <html>
 <head>
-
     <link rel="stylesheet" href="style.css">
     <title>All Events</title>
 </head>
 <body>
 
-    <h1> All Saved Events</h1>
+    <h1>All Saved Events</h1>
 
-    <form action="list.php" method="POST" style="margin-bottom: 25px;">
-        <input type="text" name="search" placeholder="Search event by name..." value="<?php echo $search; ?>" required>
+    
+    <form method="POST" action="list.php" style="margin-bottom: 25px;">
+        <input type="text" name="search" placeholder="Search event by name..." value="<?php echo htmlspecialchars($search); ?>">
         <input type="submit" value="Search">
         <a href="list.php"><button type="button">Reset</button></a>
     </form>
 
+    
     <?php
     if ($result->num_rows > 0) {
         echo "<table border='1' cellpadding='10'>";
@@ -36,6 +40,7 @@ $result = $conn->query($sql);
                 <th>Location</th>
                 <th>Description</th>
               </tr>";
+
         while ($row = $result->fetch_assoc()) {
             echo "<tr>
                     <td>{$row['id']}</td>
@@ -51,9 +56,10 @@ $result = $conn->query($sql);
     }
     ?>
 
+    
     <div class="action-container">
         <div>
-            <h2> Update Event</h2>
+            <h2>Update Event</h2>
             <form method="POST" action="update.php">
                 <input type="number" name="id" placeholder="Event ID" required><br>
                 <input type="text" name="event_name" placeholder="New Event Name" required><br>
@@ -64,6 +70,7 @@ $result = $conn->query($sql);
             </form>
         </div>
 
+        
         <div>
             <h3>🗑 Delete Event</h3>
             <form method="POST" action="delete.php">
@@ -74,10 +81,11 @@ $result = $conn->query($sql);
     </div>
 
     <br>
-    <a href="index.php"><button> Go Back to Main Page</button></a>
-<footer>
-    <p>© 2025 Mehfil-e-Magic | Developed by Kainat Khan</p>
-</footer>
+    <a href="index.php"><button>Go Back to Main Page</button></a>
+
+    <footer>
+        <p>© 2025 Mehfil-e-Magic | Developed by Kainat Khan</p>
+    </footer>
 
 </body>
 </html>
