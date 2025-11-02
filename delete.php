@@ -1,16 +1,15 @@
 <?php
 include 'db.php';
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
 $id = $_POST['id'];
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-   
-
-    $sql = "DELETE FROM events WHERE id=$id";
-
-    if ($conn->query($sql) === TRUE) {
+  $sql = "DELETE FROM events WHERE id=$id";
+$conn->query($sql);
+    if ($conn->affected_rows > 0) {
         echo "Event Deleted Successfully! <a href='list.php'>Back to List</a>";
     } else {
-        echo "Error deleting record: " . $conn->error;
+        echo "Error deleting record!! " . $conn->error;
     }
 }
 
