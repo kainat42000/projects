@@ -13,10 +13,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             WHERE id=$id";
 
     if ($conn->query($sql) === TRUE) {
+        if ($conn->affected_rows > 0){
         echo "Event Updated Successfully! <a href='list.php'>Back to List</a>";
     } else {
-        echo "Error updating record: " . $conn->error;
+        echo "Error updating record!! " . $conn->error;
     }
+}
 }
 $conn->close();
 ?>
